@@ -312,6 +312,10 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // FIX: Force scroll to the top of the page immediately when it loads.
+            // This prevents the browser from remembering a previous scroll position (like #portfolio).
+            window.scrollTo(0, 0);
+
             // Set current year in the footer
             document.getElementById('current-year').textContent = new Date().getFullYear();
 
