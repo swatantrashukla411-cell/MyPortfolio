@@ -1,339 +1,848 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Swatantra Shukla | Video & Design Portfolio</title>
-    <!-- Load Tailwind CSS -->
+    <title>Swatantra Shukla - Digital Growth Architect | Portfolio</title>
+    <!-- SEO and Meta Tags -->
+    <meta name="description" content="Swatantra Shukla's professional portfolio specializing in Social Media Management, Graphic Design, Video Editing, and SEO Strategy.">
+    <meta name="keywords" content="Swatantra Shukla, Digital Marketing, SEO, Social Media, Graphic Design, Video Editing, Portfolio">
+    <meta property="og:title" content="Swatantra Shukla - Digital Growth Architect">
+    <meta property="og:description" content="Expert in driving engagement and business growth through creative digital strategies.">
+    <!-- Load Tailwind CSS via CDN (Crucial for all styling) -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Lucide Icons CDN (for professional icons) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Load Lottie-Web CDN (for premium hero animation) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+    <!-- Google Font: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    
     <style>
-        /* Custom styles and animations */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
-        
+        /* ------------------------------------------------------------------- */
+        /* 1. Core Variables and Base Styles */
+        /* ------------------------------------------------------------------- */
+        :root {
+            --color-primary: 139 92 246; /* Violet-500 RGB */
+            --color-shadow: 10 10 10;
+            --font-main: 'Inter', sans-serif;
+            --bg-dark: #070e1a; /* Darker Slate for premium feel */
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Enforce Dark Background and Inter Font */
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0F172A; /* Slate-900 equivalent */
-            color: #E2E8F0; /* Slate-200 */
+            font-family: var(--font-main);
             scroll-behavior: smooth;
-            /* FIX: Add padding to account for fixed header height (approx 6rem) 
-               during smooth scroll, preventing jump glitches and content being hidden. */
-            scroll-padding-top: 6rem; 
+            background-color: var(--bg-dark);
+            color: #e2e8f0;
+            line-height: 1.6;
         }
 
-        /* Subtle project card hover effect */
-        .project-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-            display: block; /* Make the anchor tag behave like a block element */
-        }
-        .project-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 15px 30px rgba(6, 182, 212, 0.4); /* Cyan glow */
+        /* ------------------------------------------------------------------- */
+        /* 2. Glassmorphism & Neon Effects */
+        /* ------------------------------------------------------------------- */
+        .glass {
+            background-color: var(--glass-bg);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         
-        /* Loading animation for skill bars */
-        .skill-bar-inner {
+        .glass-card {
+            background: rgba(var(--color-shadow), 0.2);
+            transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+            transform-style: preserve-3d;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(var(--color-primary), 0.6);
+            transform: translateY(-8px) translateZ(10px);
+            box-shadow: 0 15px 40px rgba(var(--color-primary), 0.2);
+        }
+
+        .neon-heading {
+            color: #f8fafc;
+            text-shadow: 0 0 7px rgba(var(--color-primary), 0.7), 0 0 15px rgba(var(--color-primary), 0.5);
+        }
+        
+        /* ------------------------------------------------------------------- */
+        /* 3. Button and Interactive Elements */
+        /* ------------------------------------------------------------------- */
+        .gradient-button {
+            background: linear-gradient(90deg, #8b5cf6 0%, #c084fc 100%);
+            box-shadow: 0 4px 15px rgba(var(--color-primary), 0.4);
+            transition: all 0.3s ease;
+        }
+        .gradient-button:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+        }
+        
+        .cursor {
+            border-right: 2px solid white;
+            animation: blink 0.7s step-end infinite;
+        }
+        @keyframes blink {
+            from, to { border-color: transparent; }
+            50% { border-color: white; }
+        }
+        
+        /* ------------------------------------------------------------------- */
+        /* 4. Scroll Reveal (Intersection Observer) */
+        /* ------------------------------------------------------------------- */
+        .scroll-reveal {
+            opacity: 0;
+            transition: opacity 1.2s cubic-bezier(0.19, 1, 0.22, 1), transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translate(0, 0) !important;
+        }
+        
+        /* Directional Transforms */
+        .reveal-up { transform: translateY(50px); }
+        .reveal-left { transform: translateX(-50px); }
+        .reveal-right { transform: translateX(50px); }
+
+        /* Staggered Delay Utility */
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+        .delay-4 { transition-delay: 0.4s; }
+        .delay-5 { transition-delay: 0.5s; }
+        .delay-6 { transition-delay: 0.6s; }
+        .delay-7 { transition-delay: 0.7s; }
+        .delay-8 { transition-delay: 0.8s; }
+
+        /* ------------------------------------------------------------------- */
+        /* 5. Skill Bar Animations (Initial State) */
+        /* ------------------------------------------------------------------- */
+        .skill-bar-fill {
+            width: 0%;
             transition: width 1.5s ease-out;
-            width: 0%; /* Initial width */
+            height: 100%;
+            background: linear-gradient(90deg, #8b5cf6, #c084fc);
+            border-radius: 9999px;
+            box-shadow: 0 0 10px rgba(var(--color-primary), 0.5);
+        }
+        
+        /* ------------------------------------------------------------------- */
+        /* 6. Modal / Lightbox Styles */
+        /* ------------------------------------------------------------------- */
+        #media-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: none;
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+        #media-modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            width: 800px;
+            padding: 1.5rem;
+            background-color: var(--bg-dark);
+            border-radius: 1rem;
+            animation: slideIn 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        /* Header link animation */
-        .nav-link {
-            transition: color 0.2s ease;
-        }
-        .nav-link:hover {
-            color: #22D3EE; /* Cyan-400 */
-        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideIn { from { transform: translateY(50px) scale(0.9); } to { transform: translateY(0) scale(1); } }
 
-        /* Hero text glow */
-        .hero-title {
-            text-shadow: 0 0 5px rgba(34, 211, 238, 0.5), 0 0 10px rgba(34, 211, 238, 0.2);
+        /* ------------------------------------------------------------------- */
+        /* 7. Responsive Fixes */
+        /* ------------------------------------------------------------------- */
+        @media (max-width: 768px) {
+            .neon-heading {
+                font-size: 2.5rem;
+            }
+            main {
+                padding-bottom: 4rem; /* Space for fixed mobile navigation */
+            }
         }
     </style>
 </head>
-<body>
 
-    <!-- Navigation Bar -->
-    <nav class="fixed top-0 z-50 w-full bg-slate-900/95 backdrop-blur-sm shadow-xl">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#hero" class="text-2xl font-bold text-cyan-400 tracking-wider">
-                SWATANTRA
+<body class="bg-slate-900 text-slate-200">
+    <!-- Navigation (Fixed Top) -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-slate-900/80 backdrop-blur-md shadow-2xl border-b border-violet-500/30">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
+            <a href="#hero" class="text-2xl font-bold tracking-widest neon-heading">S<span class="text-violet-400">.SHUKLA</span></a>
+            
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex space-x-8">
+                <a href="#hero" class="text-sm font-medium hover:text-violet-400 transition-colors py-2" aria-label="Go to Home section">Home</a>
+                <a href="#about" class="text-sm font-medium hover:text-violet-400 transition-colors py-2" aria-label="Go to About section">About</a>
+                <a href="#skills" class="text-sm font-medium hover:text-violet-400 transition-colors py-2" aria-label="Go to Skills section">Skills</a>
+                <a href="#portfolio" class="text-sm font-medium hover:text-violet-400 transition-colors py-2" aria-label="Go to Portfolio section">Portfolio</a>
+                <a href="#contact" class="text-sm font-medium hover:text-violet-400 transition-colors py-2" aria-label="Go to Contact section">Contact</a>
+            </div>
+            
+            <!-- Theme Toggle (Functional, but visually set to dark) -->
+            <button id="theme-toggle" aria-label="Toggle dark/light mode" class="p-2 rounded-full hover:bg-slate-800 transition-colors">
+                <i data-lucide="sun" class="w-5 h-5 text-yellow-400"></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Mobile Navigation (Fixed Bottom) -->
+    <div class="fixed bottom-0 left-0 right-0 md:hidden z-40 bg-slate-900/90 backdrop-blur-md border-t border-violet-500/30">
+        <div class="flex justify-around items-center h-16">
+            <a href="#hero" class="flex flex-col items-center text-xs p-2 text-violet-400/80 hover:text-violet-400 transition-colors" aria-label="Go to Home section">
+                <i data-lucide="home" class="w-5 h-5"></i>
+                <span>Home</span>
             </a>
-            <div class="flex space-x-8 text-sm font-medium">
-                <a href="#about" class="nav-link">About</a>
-                <a href="#skills" class="nav-link">Skills</a>
-                <a href="#portfolio" class="nav-link">Portfolio</a>
-                <a href="#contact" class="nav-link">Contact</a>
-            </div>
+            <a href="#about" class="flex flex-col items-center text-xs p-2 text-violet-400/80 hover:text-violet-400 transition-colors" aria-label="Go to About section">
+                <i data-lucide="user" class="w-5 h-5"></i>
+                <span>About</span>
+            </a>
+            <a href="#skills" class="flex flex-col items-center text-xs p-2 text-violet-400/80 hover:text-violet-400 transition-colors" aria-label="Go to Skills section">
+                <i data-lucide="layout-grid" class="w-5 h-5"></i>
+                <span>Skills</span>
+            </a>
+            <a href="#portfolio" class="flex flex-col items-center text-xs p-2 text-violet-400/80 hover:text-violet-400 transition-colors" aria-label="Go to Portfolio section">
+                <i data-lucide="briefcase" class="w-5 h-5"></i>
+                <span>Work</span>
+            </a>
+            <a href="#contact" class="flex flex-col items-center text-xs p-2 text-violet-400/80 hover:text-violet-400 transition-colors" aria-label="Go to Contact section">
+                <i data-lucide="mail" class="w-5 h-5"></i>
+                <span>Contact</span>
+            </a>
         </div>
-    </nav>
+    </div>
 
-    <main class="pt-20">
-        
-        <!-- 1. HERO SECTION -->
-        <section id="hero" class="h-screen flex items-center justify-center text-center bg-slate-900 border-b border-slate-800">
-            <div class="max-w-4xl px-6">
-                <p class="text-xl font-medium text-cyan-400 mb-4 uppercase tracking-widest animate-pulse">
-                    Creative Director | Editor | Designer
-                </p>
-                <h1 class="text-7xl md:text-8xl font-extrabold leading-tight text-white mb-6 hero-title">
-                    I am <span class="text-cyan-400">Swatantra Shukla</span>.
-                </h1>
-                <p class="text-2xl text-slate-400 max-w-2xl mx-auto">
-                    Transforming raw concepts into cinematic visuals and impactful designs using precision and passion.
-                </p>
-                <a href="#portfolio" class="mt-10 inline-block px-8 py-3 bg-cyan-600 text-white font-semibold rounded-full shadow-lg hover:bg-cyan-500 transition duration-300 transform hover:scale-105">
-                    View My Work
-                </a>
+    <!-- Main Content -->
+    <main>
+        <!-- 1. Hero Section -->
+        <section id="hero" class="min-h-screen pt-24 pb-12 flex items-center justify-center relative overflow-hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Subtle Background Mesh/Pattern (CSS only for complexity) -->
+            <div class="absolute inset-0 opacity-10 pointer-events-none">
+                <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
+                            <path d="M 80 0 L 0 0 0 80" fill="none" stroke="#6366f1" stroke-width="1" opacity="0.1"/>
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#grid)" />
+                </svg>
             </div>
-        </section>
-
-        <!-- 2. ABOUT ME SECTION -->
-        <section id="about" class="py-20 bg-slate-800/50 border-b border-slate-700">
-            <div class="container mx-auto px-6 max-w-5xl">
-                <h2 class="text-4xl font-bold text-center text-cyan-400 mb-12">Who Am I?</h2>
-                <div class="bg-slate-800 p-8 md:p-12 rounded-xl shadow-2xl">
-                    <p class="text-lg text-slate-300 leading-relaxed mb-6">
-                        I am a freelance Video editor and Graphic designer with 2 years of experience, driven by a desire to tell compelling stories and create unforgettable brand identities. My workflow is built on technical mastery and creative storytelling, ensuring every project, from dynamic promotional videos to detailed branding materials, achieves maximum impact.
-                    </p>
-                    <p class="text-lg text-slate-300 leading-relaxed">
-                        I specialize in creating seamless, high-quality content that not only meets client goals but exceeds aesthetic expectations. Whether it’s pacing a powerful narrative or designing a clean, user-focused layout, I bring meticulous attention to detail to every frame and pixel.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 3. SKILLS & TOOLS SECTION -->
-        <section id="skills" class="py-20 bg-slate-900 border-b border-slate-800">
-            <div class="container mx-auto px-6 max-w-5xl">
-                <h2 class="text-4xl font-bold text-center text-white mb-16">The Creative Toolkit</h2>
-
-                <div class="grid md:grid-cols-2 gap-12">
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center relative z-10">
+                <!-- Text Content -->
+                <div class="space-y-8">
+                    <p class="text-xl font-semibold text-violet-400 scroll-reveal reveal-up delay-1" aria-label="Introduction">Hello, I'm Swatantra Shukla</p>
+                    <h1 class="text-5xl sm:text-7xl font-extrabold leading-snug">
+                        <span id="typing-text" class="neon-heading"></span><span class="cursor"></span>
+                    </h1>
+                    <p class="text-2xl text-slate-400 scroll-reveal reveal-up delay-3">Digital Marketing Specialist & Creative Director</p>
                     
-                    <!-- Software Proficiency -->
-                    <div>
-                        <h3 class="text-2xl font-semibold text-cyan-400 mb-6">Software Mastery</h3>
-                        
-                        <div class="space-y-6" id="skill-bars">
-                            <!-- Skill 1: Premiere Pro -->
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-lg font-medium text-white">Adobe Premiere Pro</span>
-                                    <span class="text-sm font-medium text-slate-400" data-width="95%">95%</span>
-                                </div>
-                                <div class="w-full bg-slate-700 rounded-full h-2.5">
-                                    <div class="skill-bar-inner h-2.5 rounded-full bg-cyan-500" data-percent="95"></div>
-                                </div>
-                            </div>
-                            
-                            <!-- Skill 2: After Effects -->
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-lg font-medium text-white">Adobe After Effects</span>
-                                    <span class="text-sm font-medium text-slate-400" data-width="90%">90%</span>
-                                </div>
-                                <div class="w-full bg-slate-700 rounded-full h-2.5">
-                                    <div class="skill-bar-inner h-2.5 rounded-full bg-cyan-500" data-percent="90"></div>
-                                </div>
-                            </div>
-
-                            <!-- Skill 3: Photoshop -->
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-lg font-medium text-white">Adobe Photoshop</span>
-                                    <span class="text-sm font-medium text-slate-400" data-width="98%">98%</span>
-                                </div>
-                                <div class="w-full bg-slate-700 rounded-full h-2.5">
-                                    <div class="skill-bar-inner h-2.5 rounded-full bg-cyan-500" data-percent="98"></div>
-                                </div>
-                            </div>
-
-                            <!-- Skill 4: Illustrator -->
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-lg font-medium text-white">Adobe Illustrator</span>
-                                    <span class="text-sm font-medium text-slate-400" data-width="85%">85%</span>
-                                </div>
-                                <div class="w-full bg-slate-700 rounded-full h-2.5">
-                                    <div class="skill-bar-inner h-2.5 rounded-full bg-cyan-500" data-percent="85"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Core Competencies -->
-                    <div>
-                        <h3 class="text-2xl font-semibold text-cyan-400 mb-6">Core Competencies</h3>
-                        <ul class="space-y-4 text-lg text-slate-300 list-disc list-inside">
-                            <li><span class="font-bold text-cyan-200">Cinematic Editing:</span> Pacing, color grading, sound design.</li>
-                            <li><span class="font-bold text-cyan-200">Motion Graphics:</span> 2D animation, dynamic text, lower thirds.</li>
-                            <li><span class="font-bold text-cyan-200">Brand Identity:</span> Logo design, style guides, social media assets.</li>
-                            <li><span class="font-bold text-cyan-200">Visual Storytelling:</span> Translating scripts into compelling visuals.</li>
-                            <li><span class="font-bold text-cyan-200">Creative Retouching:</span> High-end photo manipulation and correction.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- 4. PORTFOLIO SHOWCASE (UPDATED) -->
-        <section id="portfolio" class="py-20 bg-slate-800/50 border-b border-slate-700">
-            <div class="container mx-auto px-6">
-                <h2 class="text-4xl font-bold text-center text-cyan-400 mb-16">Selected Video Works</h2>
-
-                <!-- Project Grid: Now optimized for 4 items (2 columns) -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-
-                    <!-- Project 1: Storytelling Video Edit -->
-                    <a href="https://youtu.be/vlKDhhPgy5Y?si=uIKCnFMy4D_iU_oR" target="_blank" class="project-card bg-slate-800 rounded-xl overflow-hidden shadow-2xl">
-                        <img src="https://placehold.co/600x400/9333ea/ffffff?text=Storytelling+Video+Edit" alt="Storytelling Video Edit" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-xl font-semibold text-white mb-2">Compelling Storytelling Edit</h3>
-                            <p class="text-slate-400 mb-4 text-sm">Category: Narrative/Long-Form Video</p>
-                            <p class="text-slate-300">Focused on emotional pacing and building a cohesive narrative arc using **Premiere Pro**.</p>
-                            <p class="mt-4 text-xs font-medium text-cyan-400">Click to Watch on YouTube</p>
-                        </div>
-                    </a>
-
-                    <!-- Project 2: Kabaddi History Video Edit -->
-                    <a href="https://youtu.be/gPYm6uYAeRo?si=-xNVGHnbaynZirfe" target="_blank" class="project-card bg-slate-800 rounded-xl overflow-hidden shadow-2xl">
-                        <img src="https://placehold.co/600x400/0891b2/ffffff?text=Kabaddi+History+Sports+Edit" alt="Kabaddi History Video Edit" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-xl font-semibold text-white mb-2">Kabaddi History: Sports Page Content</h3>
-                            <p class="text-slate-400 mb-4 text-sm">Category: Documentary/Sports Video</p>
-                            <p class="text-slate-300">Dynamic edit blending archival footage and graphics to engage a sports audience. Tools: **Premiere Pro & After Effects**.</p>
-                            <p class="mt-4 text-xs font-medium text-cyan-400">Click to Watch on YouTube</p>
-                        </div>
-                    </a>
-
-                    <!-- Project 3: Podcast Edit -->
-                    <a href="https://youtu.be/J_xoENEtmHg?si=cZYuF-0MWIE3b_IM" target="_blank" class="project-card bg-slate-800 rounded-xl overflow-hidden shadow-2xl">
-                        <img src="https://placehold.co/600x400/F59E0B/ffffff?text=Podcast+Video+Edit" alt="Podcast Video Edit" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-xl font-semibold text-white mb-2">Podcast Session Video & Audio Synchronization</h3>
-                            <p class="text-slate-400 mb-4 text-sm">Category: Audio/Video Sync & Editing</p>
-                            <p class="text-slate-300">Clean editing, synchronized audio/video tracks, and creation of visualizers for long-form podcasts in **Premiere Pro**.</p>
-                            <p class="mt-4 text-xs font-medium text-cyan-400">Click to Watch on YouTube</p>
-                        </div>
-                    </a>
-                    
-                    <!-- Project 4: Reel for Sports Page (9:16) -->
-                    <a href="https://www.instagram.com/reel/DPRf0aqAbZL/?utm_source=ig_web_copy_link" target="_blank" class="project-card bg-slate-800 rounded-xl overflow-hidden shadow-2xl">
-                        <img src="https://placehold.co/600x400/EF4444/ffffff?text=Sports+Reel" alt="Sports Reel 9:16" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-xl font-semibold text-white mb-2">Vertical Sports Highlight Reel (9:16 Format)</h3>
-                            <p class="text-slate-400 mb-4 text-sm">Category: Social Media/Motion Graphics</p>
-                            <p class="text-slate-300">High-impact, short-form vertical video (9:16) optimized for Instagram/Reels engagement. Created using **Premiere Pro**.</p>
-                            <p class="mt-4 text-xs font-medium text-cyan-400">Click to View on Instagram</p>
-                        </div>
-                    </a>
-
-                </div>
-                <!-- Call to Action for more work -->
-                <div class="text-center mt-16">
-                    <p class="text-xl text-slate-300 mb-4">Want to see more graphic design works?</p>
-                    <!-- Link to Instagram (where you mentioned your graphic design content is) -->
-                    <a href="https://www.instagram.com/lucky_xcreation?utm_source=ig_web_button_share_sheet&igsh=MXJiM2txdjdxeWYyeg==" target="_blank" class="inline-block px-8 py-3 bg-cyan-600 text-white font-semibold rounded-lg shadow-xl hover:bg-cyan-500 transition duration-300">
-                        View Graphics on Instagram
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- 5. SERVICES SECTION -->
-        <section id="services" class="py-20 bg-slate-900 border-b border-slate-800">
-            <div class="container mx-auto px-6 max-w-5xl">
-                <h2 class="text-4xl font-bold text-center text-white mb-16">Services Offered</h2>
-
-                <div class="grid md:grid-cols-3 gap-8">
-                    
-                    <!-- Service 1: Video Production -->
-                    <div class="bg-slate-800 p-8 rounded-xl shadow-lg border border-cyan-500/20 transition duration-500 hover:border-cyan-400">
-                        <svg class="w-10 h-10 text-cyan-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M4 18h12a2 2 0 002-2V8a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                        <h3 class="text-xl font-semibold text-white mb-3">Professional Video Editing</h3>
-                        <p class="text-slate-400">Commercials, documentaries, social media content, and long-form projects edited with finesse in **Premiere Pro**.</p>
+                    <div class="flex flex-wrap gap-4 pt-4 scroll-reveal reveal-up delay-4">
+                        <span class="px-4 py-2 text-xs font-semibold rounded-full bg-violet-600/30 text-violet-300 border border-violet-500/50">Social Media</span>
+                        <span class="px-4 py-2 text-xs font-semibold rounded-full bg-violet-600/30 text-violet-300 border border-violet-500/50">Video Editor</span>
+                        <span class="px-4 py-2 text-xs font-semibold rounded-full bg-violet-600/30 text-violet-300 border border-violet-500/50">SEO</span>
                     </div>
 
-                    <!-- Service 2: Motion Design -->
-                    <div class="bg-slate-800 p-8 rounded-xl shadow-lg border border-cyan-500/20 transition duration-500 hover:border-cyan-400">
-                        <svg class="w-10 h-10 text-cyan-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <h3 class="text-xl font-semibold text-white mb-3">Advanced Motion Graphics</h3>
-                        <p class="text-slate-400">Creating dynamic intros, explainer videos, and custom visual effects using **After Effects**.</p>
-                    </div>
-
-                    <!-- Service 3: Branding & Print -->
-                    <div class="bg-slate-800 p-8 rounded-xl shadow-lg border border-cyan-500/20 transition duration-500 hover:border-cyan-400">
-                        <svg class="w-10 h-10 text-cyan-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6a2 2 0 110 4 2 2 0 010-4zm-2 5a2 2 0 104 0h-4z"></path></svg>
-                        <h3 class="text-xl font-semibold text-white mb-3">Graphic Design & Retouching</h3>
-                        <p class="text-slate-400">From logo creation (Illustrator) to photo manipulation and asset creation in **Photoshop**.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 6. CONTACT SECTION -->
-        <section id="contact" class="py-20 bg-slate-800/50">
-            <div class="container mx-auto px-6 max-w-2xl text-center">
-                <h2 class="text-4xl font-bold text-cyan-400 mb-6">Let's Create Something Great</h2>
-                <p class="text-xl text-slate-300 mb-10">
-                    Ready to start your next project? I am available for new collaborations.
-                </p>
-                
-                <div class="space-y-4">
-                    <p class="text-xl text-white font-medium">
-                        <!-- UPDATED EMAIL ADDRESS AND MAILTO LINK -->
-                        Email: <a href="mailto:swatantrashukla411@gmail.com" class="text-cyan-400 hover:text-cyan-300 transition duration-200">swatantrashukla411@gmail.com</a>
-                    </p>
-                    <p class="text-xl text-white font-medium">
-                        <!-- UPDATED PHONE NUMBER AND TEL LINK -->
-                        Phone: <a href="tel:+919532792303" class="text-cyan-400 hover:text-cyan-300 transition duration-200">+91 95327 92303</a>
-                    </p>
-                    <p class="pt-4">
-                        <!-- ADDED DIRECT INSTAGRAM LINK -->
-                        <a href="https://www.instagram.com/lucky_xcreation?utm_source=ig_web_button_share_sheet&igsh=MXJiM2txdjdxeWYyeg==" target="_blank" class="inline-flex items-center space-x-2 text-cyan-400 hover:text-cyan-300 transition duration-200 font-semibold">
-                            <!-- Instagram Icon (Simple SVG) -->
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7.8 2c-2.6 0-4.8 2.2-4.8 4.8v10.4c0 2.6 2.2 4.8 4.8 4.8h8.4c2.6 0 4.8-2.2 4.8-4.8V6.8c0-2.6-2.2-4.8-4.8-4.8H7.8zm9.6 2.4c.4 0 .8.3.8.8v.8c0 .4-.3.8-.8.8h-.8c-.4 0-.8-.3-.8-.8v-.8c0-.4.3-.8.8-.8h.8zm-4.8 2.4c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6zm0 2.4c-1.9 0-3.6 1.5-3.6 3.6s1.5 3.6 3.6 3.6 3.6-1.5 3.6-3.6-1.7-3.6-3.6-3.6z"/></svg>
-                            <span>Connect on Instagram</span>
+                    <div class="flex space-x-4 pt-6 scroll-reveal reveal-up delay-5">
+                        <a href="#contact" class="px-8 py-3 gradient-button text-white font-medium rounded-full flex items-center shadow-lg transition-transform hover:shadow-violet-600/50" aria-label="Hire me now">
+                            <i data-lucide="send" class="w-5 h-5 mr-2"></i> Get Started
                         </a>
-                    </p>
+                        <a href="assets/placeholder-cv.pdf" download class="px-8 py-3 text-violet-400 border border-violet-500/50 glass rounded-full flex items-center transition-colors hover:bg-violet-900/40" aria-label="Download Curriculum Vitae">
+                            <i data-lucide="download" class="w-5 h-5 mr-2"></i> Download CV
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Hero Illustration (Lottie Animation) -->
+                <div class="flex justify-center scroll-reveal reveal-right delay-6">
+                    <div id="lottie-container" class="w-full max-w-md h-96 glass rounded-3xl p-4 flex items-center justify-center">
+                        <p class="text-slate-500 text-sm">Loading Animation...</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Footer -->
-        <footer class="bg-slate-900 py-6">
-            <div class="container mx-auto px-6 text-center text-sm text-slate-500">
-                &copy; <span id="current-year"></span> Swatantra Shukla. All Rights Reserved. | Portfolio crafted with Tailwind CSS.
+        <!-- 2. About Section -->
+        <section id="about" class="py-32 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold mb-16 border-b-4 border-violet-500/50 pb-2 inline-block neon-heading scroll-reveal reveal-up">About & Experience</h2>
+            <div class="grid lg:grid-cols-4 gap-12">
+                
+                <!-- Profile Summary -->
+                <div class="lg:col-span-3 space-y-8 scroll-reveal reveal-left delay-1">
+                    <p class="text-xl text-slate-300 leading-relaxed">
+                        A highly motivated and results-driven Digital Marketing and Creative professional with **5+ years of hands-on experience**. My expertise spans the entire digital lifecycle, from crafting compelling visual content to executing data-backed strategies that generate measurable growth.
+                    </p>
+                    <p class="text-lg text-slate-400 leading-relaxed">
+                        My philosophy centers on the synergy between creativity and analytics. I don't just manage pages; I build ecosystems where content, SEO, and social engagement work in harmony to achieve business objectives. Let's build something impactful together.
+                    </p>
+                </div>
+                
+                <!-- Contact Card -->
+                <div class="glass glass-card p-6 rounded-xl space-y-5 scroll-reveal reveal-right delay-2">
+                    <h3 class="text-2xl font-semibold text-violet-400 border-b border-violet-500/30 pb-3">Connect</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start text-sm">
+                            <i data-lucide="mail" class="w-5 h-5 mr-3 text-violet-500 flex-shrink-0 mt-0.5"></i>
+                            <a href="mailto:swatantrashukla411@gmail.com" class="hover:text-violet-400 transition-colors">swatantrashukla411@gmail.com</a>
+                        </div>
+                        <div class="flex items-start text-sm">
+                            <i data-lucide="phone" class="w-5 h-5 mr-3 text-violet-500 flex-shrink-0 mt-0.5"></i>
+                            <a href="tel:+919532792303" class="hover:text-violet-400 transition-colors">+91 9532792303</a>
+                        </div>
+                        <div class="flex items-start text-sm">
+                            <i data-lucide="instagram" class="w-5 h-5 mr-3 text-violet-500 flex-shrink-0 mt-0.5"></i>
+                            <a href="https://www.instagram.com/lucky_xcreation" target="_blank" rel="noopener noreferrer" class="hover:text-violet-400 transition-colors">@lucky_xcreation</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </footer>
+        </section>
+
+        <!-- 3. Skills Section (With Animated Progress Bars) -->
+        <section id="skills" class="py-32 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold mb-16 border-b-4 border-violet-500/50 pb-2 inline-block neon-heading scroll-reveal reveal-up">Technical Expertise</h2>
+            
+            <!-- Skill Bars Grid -->
+            <div class="grid md:grid-cols-2 gap-12">
+                
+                <!-- Skill 1: Social Media Management -->
+                <div class="space-y-2 scroll-reveal reveal-left delay-1">
+                    <div class="flex justify-between items-center text-lg font-medium">
+                        <span>Social Media Management</span>
+                        <span class="text-violet-400">95%</span>
+                    </div>
+                    <div class="glass h-3 rounded-full overflow-hidden" aria-label="Skill Level 95%">
+                        <div class="skill-bar-fill" data-level="95"></div>
+                    </div>
+                </div>
+                
+                <!-- Skill 2: Graphic Design -->
+                <div class="space-y-2 scroll-reveal reveal-right delay-2">
+                    <div class="flex justify-between items-center text-lg font-medium">
+                        <span>Graphic Design (Adobe Suite)</span>
+                        <span class="text-violet-400">90%</span>
+                    </div>
+                    <div class="glass h-3 rounded-full overflow-hidden" aria-label="Skill Level 90%">
+                        <div class="skill-bar-fill" data-level="90"></div>
+                    </div>
+                </div>
+                
+                <!-- Skill 3: Video Editing -->
+                <div class="space-y-2 scroll-reveal reveal-left delay-3">
+                    <div class="flex justify-between items-center text-lg font-medium">
+                        <span>Video Editing (Premiere Pro/FCP)</span>
+                        <span class="text-violet-400">88%</span>
+                    </div>
+                    <div class="glass h-3 rounded-full overflow-hidden" aria-label="Skill Level 88%">
+                        <div class="skill-bar-fill" data-level="88"></div>
+                    </div>
+                </div>
+                
+                <!-- Skill 4: Instagram Marketing -->
+                <div class="space-y-2 scroll-reveal reveal-right delay-4">
+                    <div class="flex justify-between items-center text-lg font-medium">
+                        <span>Instagram Marketing & Ads</span>
+                        <span class="text-violet-400">92%</span>
+                    </div>
+                    <div class="glass h-3 rounded-full overflow-hidden" aria-label="Skill Level 92%">
+                        <div class="skill-bar-fill" data-level="92"></div>
+                    </div>
+                </div>
+                
+                <!-- Skill 5: SEO & Analytics -->
+                <div class="space-y-2 scroll-reveal reveal-left delay-5">
+                    <div class="flex justify-between items-center text-lg font-medium">
+                        <span>SEO Strategy & Implementation</span>
+                        <span class="text-violet-400">85%</span>
+                    </div>
+                    <div class="glass h-3 rounded-full overflow-hidden" aria-label="Skill Level 85%">
+                        <div class="skill-bar-fill" data-level="85"></div>
+                    </div>
+                </div>
+                
+                <!-- Skill 6: Content Writing -->
+                <div class="space-y-2 scroll-reveal reveal-right delay-6">
+                    <div class="flex justify-between items-center text-lg font-medium">
+                        <span>Content Writing & Storytelling</span>
+                        <span class="text-violet-400">94%</span>
+                    </div>
+                    <div class="glass h-3 rounded-full overflow-hidden" aria-label="Skill Level 94%">
+                        <div class="skill-bar-fill" data-level="94"></div>
+                    </div>
+                </div>
+                
+                <!-- Skill 7: WordPress & CMS -->
+                <div class="space-y-2 scroll-reveal reveal-left delay-7">
+                    <div class="flex justify-between items-center text-lg font-medium">
+                        <span>WordPress Development & CMS</span>
+                        <span class="text-violet-400">80%</span>
+                    </div>
+                    <div class="glass h-3 rounded-full overflow-hidden" aria-label="Skill Level 80%">
+                        <div class="skill-bar-fill" data-level="80"></div>
+                    </div>
+                </div>
+                
+                <!-- Skill 8: Page Management -->
+                <div class="space-y-2 scroll-reveal reveal-right delay-8">
+                    <div class="flex justify-between items-center text-lg font-medium">
+                        <span>Page Management & Reporting</span>
+                        <span class="text-violet-400">93%</span>
+                    </div>
+                    <div class="glass h-3 rounded-full overflow-hidden" aria-label="Skill Level 93%">
+                        <div class="skill-bar-fill" data-level="93"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Portfolio Section (with Modal) -->
+        <section id="portfolio" class="py-32 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold mb-16 border-b-4 border-violet-500/50 pb-2 inline-block neon-heading scroll-reveal reveal-up">Selected Projects</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Project 1 (Image) -->
+                <div class="glass glass-card rounded-xl overflow-hidden shadow-xl scroll-reveal reveal-up delay-1">
+                    <a href="#" class="portfolio-item block relative group" data-media-type="image" data-media-src="https://placehold.co/1200x800/8b5cf6/ffffff?text=E-commerce+Ad+Campaign" data-title="High-Converting E-commerce Ad Campaign" aria-label="View Project 1">
+                        <img src="https://placehold.co/600x400/8b5cf6/ffffff?text=E-commerce+Ad" alt="E-commerce Ad Campaign Thumbnail" loading="lazy" class="w-full h-48 object-cover transition duration-300 group-hover:opacity-80">
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold text-violet-400">E-commerce Ad Campaign</h3>
+                            <p class="text-sm text-slate-400">Managed creative and budget for a high-converting Q3 campaign, exceeding ROAS goals by 20%.</p>
+                        </div>
+                    </a>
+                </div>
+                
+                <!-- Project 2 (Video - YouTube Placeholder) -->
+                <div class="glass glass-card rounded-xl overflow-hidden shadow-xl scroll-reveal reveal-up delay-2">
+                    <a href="#" class="portfolio-item block relative group" data-media-type="video" data-media-src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" data-title="Brand Identity & Style Guide" aria-label="View Project 2">
+                        <img src="https://placehold.co/600x400/c084fc/0f172a?text=Brand+Design+Video" alt="Brand Identity Design Thumbnail" loading="lazy" class="w-full h-48 object-cover transition duration-300 group-hover:opacity-80">
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold text-violet-400">Brand Identity & Style Guide</h3>
+                            <p class="text-sm text-slate-400">Developed a complete visual ecosystem, ensuring cross-platform consistency for a Series A startup.</p>
+                        </div>
+                    </a>
+                </div>
+                
+                <!-- Project 3 (Image) -->
+                <div class="glass glass-card rounded-xl overflow-hidden shadow-xl scroll-reveal reveal-up delay-3">
+                    <a href="#" class="portfolio-item block relative group" data-media-type="image" data-media-src="https://placehold.co/1200x800/5e35b1/ffffff?text=Travel+Content+Design" data-title="Travel Vlogging Production & Edit" aria-label="View Project 3">
+                        <img src="https://placehold.co/600x400/5e35b1/ffffff?text=Travel+Vlog+Edit" alt="Travel Vlogging Edit Thumbnail" loading="lazy" class="w-full h-48 object-cover transition duration-300 group-hover:opacity-80">
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold text-violet-400">Travel Vlogging Production</h3>
+                            <p class="text-sm text-slate-400">High-energy, cinematic editing and color grading for travel influencers, maximizing retention.</p>
+                        </div>
+                    </a>
+                </div>
+                
+                <!-- Project 4 (Image) -->
+                <div class="glass glass-card rounded-xl overflow-hidden shadow-xl scroll-reveal reveal-up delay-4">
+                    <a href="#" class="portfolio-item block relative group" data-media-type="image" data-media-src="https://placehold.co/1200x800/374151/ffffff?text=SEO+Audit+Report" data-title="Technical SEO & Content Audit" aria-label="View Project 4">
+                        <img src="https://placehold.co/600x400/374151/ffffff?text=SEO+Report" alt="SEO Audit Report Thumbnail" loading="lazy" class="w-full h-48 object-cover transition duration-300 group-hover:opacity-80">
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold text-violet-400">Technical SEO & Content Audit</h3>
+                            <p class="text-sm text-slate-400">Delivered a comprehensive site audit leading to a 30% increase in organic traffic within 6 months.</p>
+                        </div>
+                    </a>
+                </div>
+                
+                <!-- Project 5 (Video - Vimeo Placeholder) -->
+                <div class="glass glass-card rounded-xl overflow-hidden shadow-xl scroll-reveal reveal-up delay-5">
+                    <a href="#" class="portfolio-item block relative group" data-media-type="video" data-media-src="https://player.vimeo.com/video/841031383?autoplay=1" data-title="Lead Generation Video Series" aria-label="View Project 5">
+                        <img src="https://placehold.co/600x400/1e293b/ffffff?text=Lead+Gen+Video" alt="Lead Generation Video Thumbnail" loading="lazy" class="w-full h-48 object-cover transition duration-300 group-hover:opacity-80">
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold text-violet-400">Lead Generation Video Series</h3>
+                            <p class="text-sm text-slate-400">Scripting, production, and editing for a B2B campaign focused on maximizing MQLs.</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 5. Testimonials Section -->
+        <section id="testimonials" class="py-32 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold mb-16 border-b-4 border-violet-500/50 pb-2 inline-block neon-heading scroll-reveal reveal-up">Client Endorsements</h2>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <blockquote class="glass glass-card p-8 rounded-xl shadow-xl scroll-reveal reveal-up delay-1" role="blockquote">
+                    <i data-lucide="quote" class="w-10 h-10 text-violet-500 mb-4 transform -translate-x-2"></i>
+                    <p class="text-lg italic text-slate-300 mb-6">"Swatantra is a marketing powerhouse. His ability to blend high-quality design with actionable strategy is unmatched. Truly a key partner for growth."</p>
+                    <footer class="border-t border-violet-500/30 pt-4">
+                        <p class="font-bold text-violet-400">Priya Sharma</p>
+                        <p class="text-sm text-slate-400">CEO, TechNova Solutions</p>
+                    </footer>
+                </blockquote>
+                
+                <!-- Testimonial 2 -->
+                <blockquote class="glass glass-card p-8 rounded-xl shadow-xl scroll-reveal reveal-up delay-2" role="blockquote">
+                    <i data-lucide="quote" class="w-10 h-10 text-violet-500 mb-4 transform -translate-x-2"></i>
+                    <p class="text-lg italic text-slate-300 mb-6">"The video editing for our product launch was flawless—cinematic, on-brand, and delivered ahead of schedule. Highly reliable and professional."</p>
+                    <footer class="border-t border-violet-500/30 pt-4">
+                        <p class="font-bold text-violet-400">Rajesh Kumar</p>
+                        <p class="text-sm text-slate-400">Founder, Content Flow Media</p>
+                    </footer>
+                </blockquote>
+                
+                <!-- Testimonial 3 -->
+                <blockquote class="glass glass-card p-8 rounded-xl shadow-xl scroll-reveal reveal-up delay-3" role="blockquote">
+                    <i data-lucide="quote" class="w-10 h-10 text-violet-500 mb-4 transform -translate-x-2"></i>
+                    <p class="text-lg italic text-slate-300 mb-6">"Our Instagram engagement tripled in three months under his guidance. His understanding of platform algorithms is clearly superior."</p>
+                    <footer class="border-t border-violet-500/30 pt-4">
+                        <p class="font-bold text-violet-400">Sneha Patel</p>
+                        <p class="text-sm text-slate-400">E-commerce Manager, ModaTrend</p>
+                    </footer>
+                </blockquote>
+            </div>
+        </section>
+
+        <!-- 6. Contact Section -->
+        <section id="contact" class="py-32 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold mb-16 border-b-4 border-violet-500/50 pb-2 inline-block neon-heading scroll-reveal reveal-up">Let's Collaborate</h2>
+            <div class="grid lg:grid-cols-3 gap-12">
+                
+                <!-- Contact Info Card -->
+                <div class="lg:col-span-1 space-y-8 scroll-reveal reveal-left delay-1">
+                    <p class="text-xl text-slate-300">
+                        I'm currently accepting new projects. Tell me about your goals, and let's discuss how digital strategy can drive your success.
+                    </p>
+                    <div class="space-y-4 text-lg">
+                        <div class="flex items-center">
+                            <i data-lucide="mail" class="w-6 h-6 mr-4 text-violet-500"></i>
+                            <a href="mailto:swatantrashukla411@gmail.com" class="hover:text-violet-400 transition-colors">swatantrashukla411@gmail.com</a>
+                        </div>
+                        <div class="flex items-center">
+                            <i data-lucide="phone" class="w-6 h-6 mr-4 text-violet-500"></i>
+                            <a href="tel:+919532792303" class="hover:text-violet-400 transition-colors">+91 9532792303</a>
+                        </div>
+                        <div class="flex items-center">
+                            <i data-lucide="instagram" class="w-6 h-6 mr-4 text-violet-500"></i>
+                            <a href="https://www.instagram.com/lucky_xcreation" target="_blank" rel="noopener noreferrer" class="hover:text-violet-400 transition-colors">Instagram</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contact Form -->
+                <div class="lg:col-span-2 scroll-reveal reveal-right delay-2">
+                    <form id="contact-form" class="glass p-8 rounded-xl space-y-6">
+                        <input type="hidden" name="_next" value="https://yourdomain.com/thanks.html">
+                        
+                        <input type="text" id="name" name="name" placeholder="Full Name" required aria-label="Full Name"
+                               class="w-full p-4 bg-slate-800/50 border border-violet-500/20 rounded-xl focus:ring-violet-500 focus:border-violet-500 transition-colors outline-none text-white placeholder-slate-500">
+                        
+                        <input type="email" id="email" name="email" placeholder="Email Address" required aria-label="Email Address"
+                               class="w-full p-4 bg-slate-800/50 border border-violet-500/20 rounded-xl focus:ring-violet-500 focus:border-violet-500 transition-colors outline-none text-white placeholder-slate-500">
+                        
+                        <textarea id="message" name="message" rows="6" placeholder="Project Details or Message" required aria-label="Message Content"
+                                  class="w-full p-4 bg-slate-800/50 border border-violet-500/20 rounded-xl focus:ring-violet-500 focus:border-violet-500 transition-colors outline-none text-white placeholder-slate-500"></textarea>
+                        
+                        <div id="form-status" class="p-4 rounded-xl hidden text-center font-medium transition-all" role="alert" aria-live="assertive"></div>
+
+                        <button type="submit" class="w-full px-8 py-4 gradient-button text-white font-medium rounded-xl neon-button transition-transform active:scale-[0.98]" aria-label="Send Contact Message">
+                            <i data-lucide="send" class="w-5 h-5 mr-2 inline-block"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
 
     </main>
 
+    <!-- Modal / Lightbox Structure -->
+    <div id="media-modal" aria-modal="true" role="dialog" aria-labelledby="modal-title">
+        <div class="modal-content glass">
+            <button id="modal-close" class="absolute top-4 right-4 p-2 bg-slate-700/50 hover:bg-slate-700 rounded-full text-white transition-colors" aria-label="Close modal">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            <h3 id="modal-title" class="text-3xl font-bold text-violet-400 mb-4"></h3>
+            <div id="modal-media-content" class="w-full aspect-video">
+                <!-- Media will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full py-8 bg-slate-900 border-t border-violet-500/30 text-center text-slate-400">
+        <p class="text-sm">
+            &copy; <span id="current-year"></span> Swatantra Shukla. All rights reserved. | <a href="#hero" class="hover:text-violet-400">Back to Top</a>
+        </p>
+    </footer>
+
+    <!-- ------------------------------------------------------------------- -->
+    <!-- JavaScript Logic (Pure JS - Comprehensive) -->
+    <!-- ------------------------------------------------------------------- -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // FIX: Force scroll to the top of the page immediately when it loads.
-            // This prevents the browser from remembering a previous scroll position (like #portfolio).
-            window.scrollTo(0, 0);
+            // --- Global Configurations ---
+            const LOTTIE_URL = 'https://lottie.host/578f77af-533c-43e5-947b-1a0e14c810d8/YlQ28l6vV2.json';
+            const FORM_URL = "https://formspree.io/f/xnqerprq"; // IMPORTANT: Replace with user's specific Formspree endpoint
 
-            // Set current year in the footer
-            document.getElementById('current-year').textContent = new Date().getFullYear();
+            // --- 1. Initialization Functions ---
+            function initPage() {
+                // Initialize Lucide icons (must be called after DOM is ready)
+                if (window.lucide) lucide.createIcons();
 
-            // Skill Bar Animation Logic (Triggers skill bar width on load)
-            const skillBars = document.querySelectorAll('.skill-bar-inner');
+                // Set current year in footer
+                document.getElementById('current-year').textContent = new Date().getFullYear();
+
+                // Initial Dark Theme setup (enforced for premium look)
+                document.documentElement.classList.add('dark');
+                if (window.localStorage) localStorage.setItem('theme', 'dark');
+
+                initLottieAnimation();
+                initTypingAnimation();
+                initScrollReveal();
+                initModalListeners();
+                initContactForm();
+                initThemeToggle();
+            }
+
+            // --- 2. Hero Animations ---
+
+            function initLottieAnimation() {
+                const container = document.getElementById('lottie-container');
+                if (container && window.lottie) {
+                    container.innerHTML = ''; // Clear loading text
+                    window.lottie.loadAnimation({
+                        container: container,
+                        renderer: 'svg',
+                        loop: true,
+                        autoplay: true,
+                        path: LOTTIE_URL,
+                    });
+                }
+            }
+
+            function initTypingAnimation() {
+                const typingElement = document.getElementById('typing-text');
+                const headline = "Driving Digital Growth with Strategy and Creativity.";
+                let i = 0;
+
+                function typeWriter() {
+                    if (i < headline.length) {
+                        typingElement.innerHTML += headline.charAt(i);
+                        i++;
+                        setTimeout(typeWriter, 55); // Typing speed
+                    }
+                }
+                // Start typing after a small delay
+                setTimeout(typeWriter, 700);
+            }
+
+            // --- 3. Scroll and Visibility Logic ---
+
+            function initScrollReveal() {
+                const revealElements = document.querySelectorAll('.scroll-reveal');
+                
+                // Intersection Observer for fade-in animations
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            
+                            // Check if skill bars need animating
+                            if (entry.target.closest('#skills')) {
+                                animateSkillBars();
+                            }
+                            observer.unobserve(entry.target); // Stop observing once visible
+                        }
+                    });
+                }, {
+                    threshold: 0.1, // Start animation when 10% of element is visible
+                    rootMargin: "0px 0px -80px 0px" // Slightly delayed reveal from bottom
+                });
+
+                revealElements.forEach(element => {
+                    observer.observe(element);
+                });
+            }
             
             function animateSkillBars() {
-                skillBars.forEach(bar => {
-                    const percent = bar.getAttribute('data-percent');
-                    // Use requestAnimationFrame for smoother initial draw
-                    requestAnimationFrame(() => {
-                        bar.style.width = percent + '%';
-                    });
+                document.querySelectorAll('.skill-bar-fill').forEach(bar => {
+                    const level = bar.getAttribute('data-level');
+                    // Set the width after a short delay to ensure CSS is rendered
+                    setTimeout(() => {
+                        bar.style.width = level + '%';
+                    }, 100);
                 });
             }
 
-            // A small delay makes the animation noticeable
-            setTimeout(animateSkillBars, 500);
+            // --- 4. Portfolio Modal Logic ---
+
+            function initModalListeners() {
+                const modal = document.getElementById('media-modal');
+                const closeButton = document.getElementById('modal-close');
+                const mediaContent = document.getElementById('modal-media-content');
+                const modalTitle = document.getElementById('modal-title');
+                
+                // Handle opening the modal
+                document.querySelectorAll('.portfolio-item').forEach(item => {
+                    item.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const mediaType = item.getAttribute('data-media-type');
+                        const mediaSrc = item.getAttribute('data-media-src');
+                        const title = item.getAttribute('data-title');
+                        
+                        modalTitle.textContent = title;
+                        mediaContent.innerHTML = ''; // Clear previous content
+
+                        if (mediaType === 'video') {
+                            // Embed iframe for video (YouTube/Vimeo)
+                            mediaContent.innerHTML = `
+                                <iframe class="w-full h-full rounded-lg"
+                                    src="${mediaSrc}"
+                                    title="${title}"
+                                    frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                    allowfullscreen>
+                                </iframe>
+                            `;
+                        } else if (mediaType === 'image') {
+                            // Embed image
+                            mediaContent.innerHTML = `
+                                <img src="${mediaSrc}" alt="${title}" loading="lazy" class="w-full h-auto max-h-[70vh] object-contain rounded-lg mx-auto" />
+                            `;
+                        }
+                        
+                        modal.classList.add('active');
+                        document.body.style.overflow = 'hidden'; // Prevent scrolling background
+                    });
+                });
+                
+                // Handle closing the modal
+                function closeModal() {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = '';
+                    mediaContent.innerHTML = ''; // Stop video playback by removing content
+                }
+                
+                closeButton.addEventListener('click', closeModal);
+                modal.addEventListener('click', (e) => {
+                    // Close if clicking outside the modal content
+                    if (e.target.id === 'media-modal') {
+                        closeModal();
+                    }
+                });
+                document.addEventListener('keydown', (e) => {
+                    // Close on ESC key press
+                    if (e.key === 'Escape' && modal.classList.contains('active')) {
+                        closeModal();
+                    }
+                });
+            }
+
+
+            // --- 5. Contact Form Logic ---
+
+            function initContactForm() {
+                const form = document.getElementById('contact-form');
+                const statusDiv = document.getElementById('form-status');
+                
+                form.setAttribute('action', FORM_URL);
+                form.setAttribute('method', 'POST');
+
+                form.addEventListener('submit', async (event) => {
+                    event.preventDefault();
+                    
+                    // Basic validation check
+                    if (!form.name.value || !form.email.value || !form.message.value) {
+                         statusDiv.classList.add('bg-red-900', 'text-white');
+                         statusDiv.textContent = 'Please fill out all required fields.';
+                         statusDiv.classList.remove('hidden', 'bg-green-900', 'bg-slate-700');
+                         return;
+                    }
+
+                    statusDiv.classList.remove('hidden', 'bg-red-900', 'bg-green-900');
+                    statusDiv.classList.add('bg-slate-700', 'text-white');
+                    statusDiv.textContent = 'Sending message...';
+
+                    const formData = new FormData(form);
+                    const data = Object.fromEntries(formData.entries());
+
+                    try {
+                        const response = await fetch(FORM_URL, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify(data)
+                        });
+
+                        if (response.ok) {
+                            statusDiv.classList.remove('bg-slate-700');
+                            statusDiv.classList.add('bg-green-900');
+                            statusDiv.textContent = 'Message sent successfully! I will reply soon.';
+                            form.reset();
+                        } else {
+                            // Handle server-side errors
+                            const errorData = await response.json();
+                            statusDiv.classList.remove('bg-slate-700');
+                            statusDiv.classList.add('bg-red-900');
+                            statusDiv.textContent = errorData.error || 'Failed to send message. Please try again.';
+                        }
+                    } catch (error) {
+                        // Handle network or fetch errors
+                        statusDiv.classList.remove('bg-slate-700');
+                        statusDiv.classList.add('bg-red-900');
+                        statusDiv.textContent = 'Network error. Please check your connection.';
+                        console.error('Submission Error:', error);
+                    }
+                });
+            }
+            
+            // --- 6. Theme Toggle Logic ---
+            function initThemeToggle() {
+                const themeToggle = document.getElementById('theme-toggle');
+                
+                function updateThemeIcon(isDark) {
+                    const icon = isDark ? 'sun' : 'moon';
+                    const color = isDark ? 'text-yellow-400' : 'text-violet-400';
+                    
+                    themeToggle.innerHTML = `<i data-lucide="${icon}" class="w-5 h-5 ${color}"></i>`;
+                    if (window.lucide) lucide.createIcons();
+                }
+
+                // Initial load: Default to dark, set icon to sun
+                updateThemeIcon(true);
+                document.documentElement.classList.add('dark');
+
+                themeToggle.addEventListener('click', () => {
+                    const isDark = document.documentElement.classList.toggle('dark');
+                    // Invert the colors for the glassmorphism base for better contrast in light mode
+                    if (!isDark) {
+                         document.documentElement.style.setProperty('--bg-dark', '#f8fafc'); // Light background
+                         document.documentElement.style.setProperty('--glass-bg', 'rgba(0, 0, 0, 0.05)');
+                         document.documentElement.style.setProperty('--glass-border', 'rgba(0, 0, 0, 0.1)');
+                         document.body.style.color = '#1e293b';
+                    } else {
+                         document.documentElement.style.setProperty('--bg-dark', '#070e1a'); // Dark background
+                         document.documentElement.style.setProperty('--glass-bg', 'rgba(255, 255, 255, 0.04)');
+                         document.documentElement.style.setProperty('--glass-border', 'rgba(255, 255, 255, 0.1)');
+                         document.body.style.color = '#e2e8f0';
+                    }
+                    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                    updateThemeIcon(isDark);
+                });
+            }
+
+
+            // Run initial setup
+            initPage();
         });
     </script>
 </body>
